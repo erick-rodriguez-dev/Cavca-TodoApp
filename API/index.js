@@ -4,15 +4,18 @@ import express from 'express'
 import cors from 'cors'
 
 import routes from './src/routes/index.js'
+import { authenticateApiKey } from './src/middleware/auth.middleware.js'
 
 const app = express()
 const port = process.env.PORT || 3000
 
-app.use(cors())
+app.use(cors('*'))
 
 mongoose.connect(process.env.MONGO_URI).then(() => console.log('Connected!'))
 
 app.use(express.json())
+
+app.use(authenticateApiKey)
 app.use(routes)
 
 app.listen(port, () => {

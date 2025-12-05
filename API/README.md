@@ -29,6 +29,7 @@ Configurar las siguientes variables:
 ```
 PORT=3000
 MONGO_URI=mongodb://127.0.0.1:27017/test
+API_KEY=your_api_key_here
 ```
 
 ### 3. Iniciar MongoDB
@@ -89,6 +90,8 @@ API/
 └── src/
     ├── controllers/         # Lógica de negocio
     │   └── task.controller.js
+    ├── middleware/          # Middleware de autenticación y validación
+    │   └── auth.middleware.js
     ├── models/              # Modelos de MongoDB
     │   └── task.model.js
     └── routes/              # Definición de rutas
@@ -105,6 +108,19 @@ API/
 - `POST /tasks` - Crear una nueva tarea
 - `PUT /tasks/:id` - Actualizar una tarea existente
 - `DELETE /tasks/:id` - Eliminar una tarea
+
+### Ejemplo de petición con cURL
+
+```bash
+curl -X GET http://localhost:3000/tasks \
+  -H "x-api-key: your-secret-api-key-here"
+```
+
+### Códigos de respuesta de autenticación
+
+- `401 Unauthorized` - No se proporcionó el header `x-api-key`
+- `403 Forbidden` - La API key proporcionada no es válida
+- `500 Server Error` - La API key no está configurada en el servidor
 
 ## Tecnologías Utilizadas
 
