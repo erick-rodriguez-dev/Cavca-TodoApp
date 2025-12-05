@@ -53,7 +53,7 @@ export default function TaskList() {
 
   return (
     <div className="w-full space-y-4">
-      <div className="sticky top-0 z-10 rounded-lg pt-2">
+      <div className="sticky top-0 z-10 bg-white py-2">
         <h1 className="text-2xl font-bold">TODO APP</h1>
         <div
           className="flex items-center justify-between gap-4 transition-all data-[visible=false]:pointer-events-none data-[visible=false]:opacity-0"

@@ -132,10 +132,26 @@ curl -X GET http://localhost:3000/tasks \
 
 ## Testing con Postman
 
-En la carpeta `postman/` se encuentra una colección de Postman con ejemplos de todas las peticiones disponibles.
+En la carpeta `postman/` se encuentra una colección de Postman con ejemplos de todas las peticiones disponibles, incluyendo tests de autenticación.
 
-Para importarla:
+### Importar la colección
 
 1. Abrir Postman
 2. Click en "Import"
 3. Seleccionar el archivo `Cavca_API.postman_collection.json`
+
+### Configurar la API Key
+
+La colección usa autenticación a nivel de colección. Para configurarla:
+
+1. En Postman, selecciona la colección "Cavca API - Tasks"
+2. Ve a la pestaña "Variables"
+3. Actualiza el valor de `api_key` con tu API key configurada en `.env`
+4. Guarda los cambios
+
+Todas las peticiones heredarán automáticamente esta autenticación.
+
+### Estructura de la colección
+
+- **Authentication** - Tests de autenticación (sin API key e inválida)
+- **Tasks** - Operaciones CRUD completas con validación
