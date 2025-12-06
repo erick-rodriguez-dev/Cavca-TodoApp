@@ -24,7 +24,7 @@ export default function TaskForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex w-full max-w-md flex-col rounded-lg bg-slate-50 p-6">
+    <form onSubmit={handleSubmit} className="flex w-full max-w-md flex-col rounded-lg bg-slate-100 p-6">
       <div className="flex-1">
         <h2 className="mb-4 text-xl font-bold text-gray-800">Nueva Tarea</h2>
 

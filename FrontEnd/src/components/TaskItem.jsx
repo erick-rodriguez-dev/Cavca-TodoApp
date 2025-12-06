@@ -16,7 +16,7 @@ export default function TaskItem({ task }) {
           type="checkbox"
           checked={isSelected}
           onChange={() => toggleTaskSelection(task._id)}
-          className="h-5 w-5 cursor-pointer rounded border-gray-300 text-blue-600 focus:ring-2 focus:ring-blue-500"
+          className="h-5 w-5 cursor-pointer rounded-md border-gray-300 text-blue-600"
           title="Seleccionar tarea"
         />
 

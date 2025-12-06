@@ -11,8 +11,8 @@ function App() {
   }, [fetchTasks])
 
   return (
-    <div className="min-h-screen bg-white">
-      <div className="h-screen w-full p-4">
+    <div className="h-dvh bg-white">
+      <div className="h-full w-full p-4">
         <main className="flex h-full flex-col justify-between gap-4 md:flex-row-reverse">
           <TaskForm />
           <TaskList />

@@ -52,15 +52,15 @@ export default function TaskList() {
   const completedTasks = tasks.filter((task) => task.completed)
 
   return (
-    <div className="w-full space-y-4">
-      <div className="sticky top-0 z-10 bg-white py-2">
+    <div className="w-full space-y-4 pb-4">
+      <div className="sticky top-0 z-10 bg-linear-to-b from-white from-80% to-transparent py-2">
         <h1 className="text-2xl font-bold">TODO APP</h1>
         <div
-          className="flex items-center justify-between gap-4 transition-all data-[visible=false]:pointer-events-none data-[visible=false]:opacity-0"
+          className="flex flex-col items-start justify-between gap-4 transition-all data-[visible=false]:hidden md:flex-row md:items-center"
           data-visible={selectedTasks.length > 0}
         >
           <p className="font-semibold text-blue-900">{selectedTasks.length} tarea(s) seleccionada(s)</p>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
             <button
               onClick={handleCompleteSelected}
               className="flex items-center gap-2 rounded-md bg-green-500 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-green-600"
