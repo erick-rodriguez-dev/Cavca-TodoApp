@@ -1,6 +1,5 @@
 import { useTaskStore } from '../store/useTaskStore'
 import { Check, Trash2 } from 'lucide-react'
-import { motion } from 'motion/react'
 import { useState } from 'react'
 import { toast } from 'sonner'
 
