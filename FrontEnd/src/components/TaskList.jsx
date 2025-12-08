@@ -1,49 +1,30 @@
 import { useTaskStore } from '../store/useTaskStore'
-import { Trash2, Check, X } from 'lucide-react'
-
+import { AnimatePresence } from 'motion/react'
 import TaskItem from './TaskItem'
+import { useEffect } from 'react'
+import { toast } from 'sonner'
 
 export default function TaskList() {
-  const { tasks, isLoading, error, selectedTasks, deleteSelectedTasks, completeSelectedTasks, clearSelection } = useTaskStore()
+  const { tasks, isLoading, error } = useTaskStore()
 
-  const handleDeleteSelected = async () => {
-    if (window.confirm(`¿Estás seguro de eliminar ${selectedTasks.length} tarea(s)?`)) {
-      try {
-        await deleteSelectedTasks()
-      } catch {
-        alert('Error al eliminar las tareas')
-      }
+  useEffect(() => {
+    if (error) {
+      toast.error(error)
     }
-  }
-
-  const handleCompleteSelected = async () => {
-    try {
-      await completeSelectedTasks()
-    } catch {
-      alert('Error al actualizar las tareas')
-    }
-  }
+  }, [error])
 
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <div className="h-12 w-12 animate-spin rounded-full border-b-2 border-blue-500"></div>
-      </div>
-    )
-  }
-
-  if (error) {
-    return (
-      <div className="rounded-lg border border-red-400 bg-red-100 px-4 py-3 text-red-700">
-        <p className="font-medium">Error: {error}</p>
+        <div className="h-10 w-10 animate-spin rounded-full border-2 border-gray-300 border-t-gray-600"></div>
       </div>
     )
   }
 
   if (tasks.length === 0) {
     return (
-      <div className="rounded-lg border border-gray-300 bg-gray-100 px-6 py-8 text-center text-gray-600">
-        <p className="text-lg">No hay tareas. ¡Crea una nueva tarea para comenzar!</p>
+      <div className="rounded-2xl bg-white px-6 py-12 text-center text-gray-400 shadow-sm">
+        <p>No hay tareas. ¡Crea una nueva tarea para comenzar!</p>
       </div>
     )
   }
@@ -52,64 +33,15 @@ export default function TaskList() {
   const completedTasks = tasks.filter((task) => task.completed)
 
   return (
-    <div className="w-full space-y-4 pb-4">
-      <div className="sticky top-0 z-10 bg-linear-to-b from-white from-80% to-transparent py-2">
-        <h1 className="text-2xl font-bold">TODO APP</h1>
-        <div
-          className="flex flex-col items-start justify-between gap-4 transition-all data-[visible=false]:hidden md:flex-row md:items-center"
-          data-visible={selectedTasks.length > 0}
-        >
-          <p className="font-semibold text-blue-900">{selectedTasks.length} tarea(s) seleccionada(s)</p>
-          <div className="flex flex-wrap gap-2">
-            <button
-              onClick={handleCompleteSelected}
-              className="flex items-center gap-2 rounded-md bg-green-500 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-green-600"
-              title="Cambiar estado de tareas seleccionadas"
-            >
-              <Check size={16} />
-              Cambiar estado
-            </button>
-            <button
-              onClick={handleDeleteSelected}
-              className="flex items-center gap-2 rounded-md bg-red-500 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-red-600"
-              title="Eliminar tareas seleccionadas"
-            >
-              <Trash2 size={16} />
-              Eliminar
-            </button>
-            <button
-              onClick={clearSelection}
-              className="flex items-center gap-2 rounded-md bg-gray-500 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-gray-600"
-              title="Cancelar selección"
-            >
-              <X size={16} />
-              Cancelar
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {pendingTasks.length > 0 && (
-        <div>
-          <h2 className="mb-3 text-xl font-bold text-gray-800">Tareas Pendientes ({pendingTasks.length})</h2>
-          <div className="space-y-3">
-            {pendingTasks.map((task) => (
-              <TaskItem key={task._id} task={task} />
-            ))}
-          </div>
-        </div>
-      )}
-
-      {completedTasks.length > 0 && (
-        <div>
-          <h2 className="mb-3 text-xl font-bold text-gray-800">Tareas Completadas ({completedTasks.length})</h2>
-          <div className="space-y-3">
-            {completedTasks.map((task) => (
-              <TaskItem key={task._id} task={task} />
-            ))}
-          </div>
-        </div>
-      )}
+    <div className="w-full space-y-3">
+      <AnimatePresence initial={false}>
+        {pendingTasks.map((task) => (
+          <TaskItem key={task._id} task={task} />
+        ))}
+        {completedTasks.map((task) => (
+          <TaskItem key={task._id} task={task} />
+        ))}
+      </AnimatePresence>
     </div>
   )
 }

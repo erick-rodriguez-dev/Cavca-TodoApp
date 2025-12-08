@@ -11,23 +11,23 @@ export const useTaskStore = create((set) => ({
     set({ isLoading: true, error: null })
     try {
       const tasks = await getTask()
-      set({ tasks, isLoading: false })
+      const sortedTasks = tasks.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+      set({ tasks: sortedTasks, isLoading: false })
     } catch (error) {
       set({ error: error.message, isLoading: false })
     }
   },
 
   addTask: async (taskData) => {
-    set({ isLoading: true, error: null })
+    set({ error: null })
     try {
       const newTask = await createTask(taskData)
       set((state) => ({
-        tasks: [...state.tasks, newTask],
-        isLoading: false,
+        tasks: [newTask, ...state.tasks],
       }))
       return newTask
     } catch (error) {
-      set({ error: error.message, isLoading: false })
+      set({ error: error.message })
       throw error
     }
   },
@@ -43,6 +43,32 @@ export const useTaskStore = create((set) => ({
 
       set((state) => ({
         tasks: state.tasks.map((t) => (t._id === taskId ? updatedTask : t)),
+      }))
+    } catch (error) {
+      set({ error: error.message })
+      throw error
+    }
+  },
+
+  updateTask: async (taskId, data) => {
+    try {
+      const updatedTask = await updateTask(taskId, data)
+
+      set((state) => ({
+        tasks: state.tasks.map((t) => (t._id === taskId ? updatedTask : t)),
+      }))
+      return updatedTask
+    } catch (error) {
+      set({ error: error.message })
+      throw error
+    }
+  },
+
+  deleteTask: async (taskId) => {
+    try {
+      await deleteTask(taskId)
+      set((state) => ({
+        tasks: state.tasks.filter((t) => t._id !== taskId),
       }))
     } catch (error) {
       set({ error: error.message })
